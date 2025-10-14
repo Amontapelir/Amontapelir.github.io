@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Arnando Аренда: Налоги и Доходы</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Основное приложение -->
+    <div id="app" class="app">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Аренда: Налоги и Доходы</h1>
+                <div class="header-actions">
+                    <button id="exportBtn" class="btn-secondary">Экспорт</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Навигация -->
+        <nav class="navigation">
+            <button class="nav-btn active" data-page="dashboard">📊 Дашборд</button>
+            <button class="nav-btn" data-page="objects">🏠 Объекты</button>
+            <button class="nav-btn" data-page="calculator">🧮 Калькулятор</button>
+            <button class="nav-btn" data-page="contracts">📑 Договоры</button>
+            <button class="nav-btn" data-page="analytics">📈 Аналитика</button>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Дашборд -->
+            <div id="dashboard" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Общая прибыль</h3>
+                        <div class="stat-value" id="totalProfit">0 ₽</div>
+                        <div class="stat-label">за все время</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Активные объекты</h3>
+                        <div class="stat-value" id="activeObjects">0</div>
+                        <div class="stat-label">из <span id="totalObjects">0</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Следующий налог</h3>
+                        <div class="stat-value" id="nextTax">0 ₽</div>
+                        <div class="stat-label">до 28 числа</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Предстоящие платежи</h3>
+                        <div class="stat-value" id="upcomingPayments">0</div>
+                        <div class="stat-label">на этой неделе</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="card">
+                        <h3>Последние операции</h3>
+                        <div id="recentTransactions" class="transactions-list">
+                            <!-- Динамически заполняется -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Ближайшие платежи</h3>
+                        <div id="upcomingList" class="upcoming-list">
+                            <!-- Динамически заполняется -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Объекты недвижимости -->
+            <div id="objects" class="page">
+                <div class="page-header">
+                    <h2>Объекты недвижимости</h2>
+                    <button id="addObjectBtn" class="btn-primary">+ Добавить объект</button>
+                </div>
+                <div id="objectsList" class="cards-grid">
+                    <!-- Динамически заполняется -->
+                </div>
+            </div>
+
+
+            <!-- Калькулятор -->
+            <div id="calculator" class="page">
+                <div class="calculator-header">
+                    <h2>Налоговый калькулятор</h2>
+                </div>
+
+                <div class="calculator-grid">
+                    <div class="card">
+                        <h3>Доходы и тип арендатора</h3>
+                        <div class="form-group">
+                            <label>Арендная плата (мес):</label>
+                            <input type="number" id="rentIncome" placeholder="0" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Дополнительные платежи:</label>
+                            <input type="number" id="additionalIncome" placeholder="0" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Тип арендатора:</label>
+                            <div class="tenant-type-selector">
+                                <label class="tenant-type-label">
+                                    <input type="radio" name="tenantType" value="physical" checked>
+                                    <span>Физлицо (налог 4%)</span>
+                                </label>
+                                <label class="tenant-type-label">
+                                    <input type="radio" name="tenantType" value="legal">
+                                    <span>Юрлицо (налог 6%)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Расходы</h3>
+                        <div class="form-group">
+                            <label>Ипотека (мес):</label>
+                            <input type="number" id="mortgageExpense" placeholder="0" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Коммунальные услуги:</label>
+                            <input type="number" id="utilitiesExpense" placeholder="0" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Ремонт и обслуживание:</label>
+                            <input type="number" id="maintenanceExpense" placeholder="0" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Прочие расходы:</label>
+                            <input type="number" id="otherExpenses" placeholder="0" class="form-input">
+                        </div>
+                        <button id="calculateBtn" class="btn-primary">Рассчитать</button>
+                    </div>
+
+                    <div class="card results-card">
+                        <h3>Результаты расчета</h3>
+                        <div class="result-item">
+                            <span>Общий доход:</span>
+                            <span id="totalIncome">0 ₽</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Общие расходы:</span>
+                            <span id="totalExpenses">0 ₽</span>
+                        </div>
+
+                        <div class="result-item tax">
+                            <span id="taxLabel">Налог НПД(4%):</span>
+                            <span id="taxAmount">0 ₽</span>
+                        </div>
+
+                        <div class="result-item profit">
+                            <span>Чистая прибыль:</span>
+                            <span id="netProfit">0 ₽</span>
+                        </div>
+
+                        <div class="tax-info" id="taxInfo">
+                            <strong>Налог на профессиональный доход (НПД)</strong><br>
+                            • Ставка: 4% при сдаче физлицам<br>
+                            • Ставка: 6% при сдаче юрлицам<br>
+                            • Расходы не уменьшают налоговую базу<br>
+                            • Уплата до 28 числа каждого месяца
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Договоры -->
+            <div id="contracts" class="page">
+                <div class="page-header">
+                    <h2>Договоры аренды</h2>
+                    <button id="addContractBtn" class="btn-primary">+ Новый договор</button>
+                </div>
+                <div id="contractsList" class="cards-grid">
+                    <!-- Динамически заполняется -->
+                </div>
+            </div>
+
+            <!-- Аналитика -->
+            <div id="analytics" class="page">
+                <div class="analytics-header">
+                    <h2>Финансовая аналитика</h2>
+                    <div class="period-selector">
+                        <select id="analyticsPeriod" class="form-select">
+                            <option value="month">За месяц</option>
+                            <option value="quarter">За квартал</option>
+                            <option value="year">За год</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="card chart-card">
+                        <h3>Доходы и расходы</h3>
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+
+                    <div class="card chart-card">
+                        <h3>Распределение по объектам</h3>
+                        <canvas id="objectsChart"></canvas>
+                    </div>
+
+                    <div class="card">
+                        <h3>Статистика</h3>
+                        <div class="stats-list">
+                            <div class="stat-row">
+                                <span>Общий доход:</span>
+                                <span id="analyticsIncome">0 ₽</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>ООбщие расходы:</span>
+                                <span id="analyticsExpenses">0 ₽</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Уплачего налогов:</span>
+                                <span id="analyticsTaxes">0 ₽</span>
+                            </div>
+                            <div class="stat-row profit">
+                                <span>Чистая прибыль:</span>
+                                <span id="analyticsProfit">0 ₽</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="objectModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="objectModalTitle">Добавить объект</h3>
+            <form id="objectForm">
+                <input type="hidden" id="objectId">
+                <div class="form-group">
+                    <label>Название объекта:</label>
+                    <input type="text" id="objectName" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Адрес:</label>
+                    <input type="text" id="objectAddress" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Тип недвижимости:</label>
+                    <select id="objectType" class="form-select">
+                        <option value="apartment">Квартира</option>
+                        <option value="house">Дом</option>
+                        <option value="room">Комната</option>
+                        <option value="commercial">Коммерческая</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Базовая ставка аренды (₽/мес):</label>
+                    <input type="number" id="objectRent" required class="form-input">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelObjectBtn" class="btn-secondary">Отмена</button>
+                    <button type="submit" class="btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="contractModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="contractModalTitle">Новый договор</h3>
+            <form id="contractForm">
+                <input type="hidden" id="contractId">
+                <div class="form-group">
+                    <label>Объект недвижимости:</label>
+                    <select id="contractObject" required class="form-select"></select>
+                </div>
+                <div class="form-group">
+                    <label>Арендатор:</label>
+                    <input type="text" id="contractTenant" required class="form-input">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дата начала:</label>
+                        <input type="date" id="contractStart" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Дата окончания:</label>
+                        <input type="date" id="contractEnd" required class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Сумма аренды (₽/мес):</label>
+                    <input type="number" id="contractAmount" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>График платежей:</label>
+                    <select id="contractSchedule" class="form-select">
+                        <option value="monthly">Ежемесячно</option>
+                        <option value="quarterly">Поквартально</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelContractBtn" class="btn-secondary">Отмена</button>
+                    <button type="submit" class="btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
