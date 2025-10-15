@@ -9,7 +9,6 @@ class ChartsManager {
         this.createIncomeExpenseChart();
         this.createObjectsChart();
         
-        // Обновляем графики при изменении периода
         document.getElementById('analyticsPeriod').addEventListener('change', () => {
             this.updateCharts();
         });
@@ -107,12 +106,9 @@ class ChartsManager {
     }
 
     async updateIncomeExpenseChart() {
-        // Здесь будет логика получения данных за выбранный период
-        // Пока используем тестовые данные
         const payments = await db.getPayments();
         const expenses = await db.getExpenses();
         
-        // Группируем по месяцам
         const monthlyData = this.groupByMonth(payments, expenses);
         
         this.incomeExpenseChart.data.labels = monthlyData.labels;
@@ -141,7 +137,6 @@ class ChartsManager {
     }
 
     groupByMonth(payments, expenses) {
-        // Упрощенная группировка по месяцам
         const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
         const currentMonth = new Date().getMonth();
         
@@ -149,14 +144,11 @@ class ChartsManager {
         const expensesData = new Array(6).fill(0);
         const labels = [];
 
-        // Заполняем последние 6 месяцев
         for (let i = 5; i >= 0; i--) {
             const monthIndex = (currentMonth - i + 12) % 12;
             labels.push(months[monthIndex]);
         }
 
-        // Здесь должна быть реальная логика группировки данных
-        // Пока используем случайные данные для демонстрации
         income.forEach((_, i) => {
             income[i] = Math.floor(Math.random() * 100000) + 50000;
             expensesData[i] = Math.floor(Math.random() * 30000) + 10000;
@@ -164,4 +156,5 @@ class ChartsManager {
 
         return { labels, income, expenses: expensesData };
     }
+
 }
