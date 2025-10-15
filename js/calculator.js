@@ -1,13 +1,11 @@
 class TaxCalculator {
     constructor() {
-        this.tenantType = 'physical'; // По умолчанию физлицо
+        this.tenantType = 'physical';
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
         document.getElementById('calculateBtn').addEventListener('click', () => this.calculate());
-
-        // Переключатель типа арендатора
         document.querySelectorAll('input[name="tenantType"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 this.tenantType = e.target.value;
@@ -16,7 +14,6 @@ class TaxCalculator {
             });
         });
 
-        // Авторасчет при изменении значений
         [
             'rentIncome', 'additionalIncome', 'mortgageExpense',
             'utilitiesExpense', 'maintenanceExpense', 'otherExpenses'
@@ -24,7 +21,6 @@ class TaxCalculator {
             document.getElementById(id).addEventListener('input', () => this.calculate());
         });
 
-        // Инициализируем интерфейс
         this.updateTaxLabel();
     }
 
@@ -36,32 +32,26 @@ class TaxCalculator {
     }
 
     calculate() {
-        // Получаем значения доходов
         const rentIncome = parseFloat(document.getElementById('rentIncome').value) || 0;
         const additionalIncome = parseFloat(document.getElementById('additionalIncome').value) || 0;
 
-        // Получаем значения расходов
         const mortgageExpense = parseFloat(document.getElementById('mortgageExpense').value) || 0;
         const utilitiesExpense = parseFloat(document.getElementById('utilitiesExpense').value) || 0;
         const maintenanceExpense = parseFloat(document.getElementById('maintenanceExpense').value) || 0;
         const otherExpenses = parseFloat(document.getElementById('otherExpenses').value) || 0;
 
-        // Рассчитываем итоги
         const totalIncome = rentIncome + additionalIncome;
         const totalExpenses = mortgageExpense + utilitiesExpense + maintenanceExpense + otherExpenses;
 
-        // Рассчитываем налог в зависимости от типа арендатора
         const taxRate = this.tenantType === 'physical' ? 0.04 : 0.06;
         const taxAmount = totalIncome * taxRate;
 
-        // Чистая прибыль
         const netProfit = totalIncome - taxAmount - totalExpenses;
 
         this.displayResults(totalIncome, totalExpenses, taxAmount, netProfit);
     }
 
     displayResults(totalIncome, totalExpenses, taxAmount, netProfit) {
-    // Добавляем проверки существования элементов
     const elements = {
         'totalIncome': totalIncome,
         'totalExpenses': totalExpenses,
@@ -77,9 +67,6 @@ class TaxCalculator {
             console.warn(`Элемент с id "${id}" не найден в DOM`);
         }
     }
-    
-    // Убираем строку с totalTaxAmount, так как такого элемента нет в HTML
-    // document.getElementById('totalTaxAmount').textContent = this.formatCurrency(taxAmount);
 }
 
     formatCurrency(amount) {
@@ -90,7 +77,6 @@ class TaxCalculator {
         }).format(amount);
     }
 
-    // Методы для расчетов по объектам
     async calculateForObject(objectId, tenantType = 'physical') {
         const contracts = await db.getContractsByObject(objectId);
         const expenses = await db.getExpensesByObject(objectId);
@@ -134,11 +120,10 @@ class TaxCalculator {
             netProfit
         };
     }
-
-    // Метод для получения текущей налоговой ставки
     getCurrentTaxRate() {
         return this.tenantType === 'physical' ? 4 : 6;
     }
 }
+
 
 const taxCalculator = new TaxCalculator();
