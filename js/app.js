@@ -10,34 +10,29 @@ class RentTaxApp {
 
     async initializeApp() {
         this.initializeEventListeners();
-        this.loadTheme(); // Загружаем тему при инициализации
+        this.loadTheme();
         this.loadInitialData();
     }
 
     initializeEventListeners() {
-        // Навигация
         document.querySelectorAll('.nav-btn').forEach(btn => {
             if (btn.id !== 'themeToggle') {
                 btn.addEventListener('click', (e) => this.switchPage(e.target.dataset.page));
             }
         });
 
-        // Объекты
         document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
 
         document.getElementById('addObjectBtn').addEventListener('click', () => this.showObjectModal());
         document.getElementById('objectForm').addEventListener('submit', (e) => this.saveObject(e));
         document.getElementById('cancelObjectBtn').addEventListener('click', () => this.hideObjectModal());
 
-        // Договоры
         document.getElementById('addContractBtn').addEventListener('click', () => this.showContractModal());
         document.getElementById('contractForm').addEventListener('submit', (e) => this.saveContract(e));
         document.getElementById('cancelContractBtn').addEventListener('click', () => this.hideContractModal());
 
-        // Экспорт
         document.getElementById('exportBtn').addEventListener('click', () => this.exportData());
 
-        // Закрытие модальных окон при клике вне их
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
                 e.target.classList.add('hidden');
@@ -45,7 +40,6 @@ class RentTaxApp {
         });
     }
 
-    // Переключение темы
     toggleTheme() {
         const body = document.body;
         const themeToggle = document.getElementById('themeToggle');
@@ -61,7 +55,6 @@ class RentTaxApp {
         }
     }
 
-    // Загрузка темы из localStorage
     loadTheme() {
         const savedTheme = localStorage.getItem('theme') || 'light';
         const themeToggle = document.getElementById('themeToggle');
@@ -76,23 +69,18 @@ class RentTaxApp {
     }
 
     switchPage(pageId) {
-        // Скрываем все страницы
         document.querySelectorAll('.page').forEach(page => {
             page.classList.remove('active');
         });
 
-        // Убираем активный класс у всех кнопок навигации
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.remove('active');
         });
 
-        // Показываем выбранную страницу
         document.getElementById(pageId).classList.add('active');
 
-        // Активируем соответствующую кнопку навигации
         document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
 
-        // Загружаем данные для страницы
         this.loadPageData(pageId);
     }
 
@@ -122,11 +110,9 @@ class RentTaxApp {
         const contracts = await this.db.getContracts();
         const payments = await this.db.getRecentPayments(5);
 
-        // Получаем текущий тип арендатора из калькулятора
         const currentTenantType = this.calculator.tenantType;
         const overallCalculation = await this.calculator.calculateOverall(currentTenantType);
 
-        // Обновляем статистику
         document.getElementById('totalProfit').textContent = this.formatCurrency(overallCalculation.netProfit);
         document.getElementById('activeObjects').textContent = objects.length;
         document.getElementById('totalObjects').textContent = objects.length;
@@ -135,10 +121,7 @@ class RentTaxApp {
         const activeContracts = contracts.filter(c => c.isActive);
         document.getElementById('upcomingPayments').textContent = activeContracts.length;
 
-        // Последние операции
         this.displayRecentTransactions(payments);
-
-        // Ближайшие платежи
         this.displayUpcomingPayments(activeContracts);
     }
 
@@ -188,7 +171,6 @@ class RentTaxApp {
             </div>
         `;
 
-        // Добавляем обработчики событий
         card.querySelector('.edit-object').addEventListener('click', (e) => {
             e.stopPropagation();
             this.editObject(object.id);
@@ -270,7 +252,6 @@ class RentTaxApp {
         document.getElementById('analyticsProfit').textContent = this.formatCurrency(overallCalculation.netProfit);
     }
 
-    // Модальные окна для объектов
     showObjectModal(objectId = null) {
         const modal = document.getElementById('objectModal');
         const title = document.getElementById('objectModalTitle');
@@ -349,25 +330,20 @@ class RentTaxApp {
         }
     }
 
-    // Модальные окна для договоров
     async showContractModal(contractId = null) {
         const modal = document.getElementById('contractModal');
         const title = document.getElementById('contractModalTitle');
         const objectSelect = document.getElementById('contractObject');
         const warningMessage = document.getElementById('noObjectsWarning');
         const saveButton = document.getElementById('saveContractBtn');
-
-        // Загружаем объекты для выбора
         const objects = await this.db.getObjects();
         objectSelect.innerHTML = '<option value="">Выберите объект</option>';
 
         if (objects.length === 0) {
-            // Если объектов нет, показать сообщение
             objectSelect.innerHTML = '<option value="" disabled selected>Сначала добавьте объект</option>';
             warningMessage.classList.remove('hidden');
             saveButton.disabled = true;
         } else {
-            // Заполнить select объектами
             objects.forEach(object => {
                 objectSelect.innerHTML += `<option value="${object.id}">${object.name}</option>`;
             });
@@ -383,7 +359,6 @@ class RentTaxApp {
             document.getElementById('contractForm').reset();
             document.getElementById('contractId').value = '';
 
-            // Устанавливаем дату начала на сегодня, окончания - через год
             const today = new Date().toISOString().split('T')[0];
             const nextYear = new Date();
             nextYear.setFullYear(nextYear.getFullYear() + 1);
@@ -392,13 +367,11 @@ class RentTaxApp {
             document.getElementById('contractStart').value = today;
             document.getElementById('contractEnd').value = nextYearFormatted;
         }
-
         modal.classList.remove('hidden');
     }
 
     hideContractModal() {
         document.getElementById('contractModal').classList.add('hidden');
-        // Скрыть предупреждение при закрытии модального окна
         document.getElementById('noObjectsWarning').classList.add('hidden');
     }
 
@@ -470,7 +443,6 @@ class RentTaxApp {
         }
     }
 
-    // Вспомогательные методы
     displayRecentTransactions(payments) {
         const container = document.getElementById('recentTransactions');
         container.innerHTML = '';
@@ -560,7 +532,6 @@ class RentTaxApp {
         const contracts = await this.db.getContracts();
         const payments = await this.db.getPayments();
         const expenses = await this.db.getExpenses();
-
         const data = {
             objects,
             contracts,
@@ -568,7 +539,6 @@ class RentTaxApp {
             expenses,
             exportDate: new Date().toISOString()
         };
-
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -581,10 +551,8 @@ class RentTaxApp {
     }
 }
 
-// Создаем глобальный экземпляр приложения
 let app;
-
-// Запускаем приложение когда DOM загружен
 document.addEventListener('DOMContentLoaded', () => {
     app = new RentTaxApp();
+
 });
