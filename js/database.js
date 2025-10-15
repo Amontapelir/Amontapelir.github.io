@@ -19,34 +19,29 @@ class Database {
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
 
-                // Таблица объектов недвижимости
                 if (!db.objectStoreNames.contains('objects')) {
                     const objectsStore = db.createObjectStore('objects', { keyPath: 'id', autoIncrement: true });
                     objectsStore.createIndex('name', 'name', { unique: false });
                 }
 
-                // Таблица договоров
                 if (!db.objectStoreNames.contains('contracts')) {
                     const contractsStore = db.createObjectStore('contracts', { keyPath: 'id', autoIncrement: true });
                     contractsStore.createIndex('objectId', 'objectId', { unique: false });
                     contractsStore.createIndex('endDate', 'endDate', { unique: false });
                 }
 
-                // Таблица платежей
                 if (!db.objectStoreNames.contains('payments')) {
                     const paymentsStore = db.createObjectStore('payments', { keyPath: 'id', autoIncrement: true });
                     paymentsStore.createIndex('contractId', 'contractId', { unique: false });
                     paymentsStore.createIndex('date', 'date', { unique: false });
                 }
 
-                // Таблица расходов
                 if (!db.objectStoreNames.contains('expenses')) {
                     const expensesStore = db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
                     expensesStore.createIndex('objectId', 'objectId', { unique: false });
                     expensesStore.createIndex('date', 'date', { unique: false });
                 }
 
-                // Таблица настроек
                 if (!db.objectStoreNames.contains('settings')) {
                     db.createObjectStore('settings', { keyPath: 'key' });
                 }
@@ -54,7 +49,6 @@ class Database {
         });
     }
 
-    // Общие методы для работы с хранилищами
     async add(storeName, data) {
         const transaction = this.db.transaction([storeName], 'readwrite');
         const store = transaction.objectStore(storeName);
@@ -107,7 +101,6 @@ class Database {
         });
     }
 
-    // Специфические методы для объектов
     async addObject(object) {
         return this.add('objects', {
             ...object,
@@ -166,7 +159,6 @@ class Database {
     }
 
     async deleteContract(id) {
-        // Удаляем связанные платежи
         const payments = await this.getPaymentsByContract(id);
         for (const payment of payments) {
             await this.deletePayment(payment.id);
@@ -175,7 +167,6 @@ class Database {
         return this.delete('contracts', id);
     }
 
-    // Специфические методы для платежей
     async addPayment(payment) {
         return this.add('payments', {
             ...payment,
@@ -203,7 +194,6 @@ class Database {
         return this.delete('payments', id);
     }
 
-    // Специфические методы для расходов
     async addExpense(expense) {
         return this.add('expenses', {
             ...expense,
@@ -225,5 +215,4 @@ class Database {
     }
 }
 
-// Создаем глобальный экземпляр базы данных
 const db = new Database();
