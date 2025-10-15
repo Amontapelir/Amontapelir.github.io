@@ -10,9 +10,7 @@
 </head>
 <body>
 
-    <!-- Основное приложение -->
     <div id="app" class="app">
-        <!-- Шапка -->
         <header class="header">
             <div class="header-content">
                 <h1>Аренда: Налоги и Доходы</h1>
@@ -22,7 +20,6 @@
             </div>
         </header>
 
-        <!-- Навигация -->
         <nav class="navigation">
             <button class="nav-btn active" data-page="dashboard">📊 Дашборд</button>
             <button class="nav-btn" data-page="objects">🏠 Объекты</button>
@@ -32,9 +29,7 @@
             <button id="themeToggle" class="nav-btn">🌙 Тёмная</button>
         </nav>
 
-        <!-- Основной контент -->
         <main class="main-content">
-            <!-- Дашборд -->
             <div id="dashboard" class="page active">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -63,32 +58,26 @@
                     <div class="card">
                         <h3>Последние операции</h3>
                         <div id="recentTransactions" class="transactions-list">
-                            <!-- Динамически заполняется -->
                         </div>
                     </div>
 
                     <div class="card">
                         <h3>Ближайшие платежи</h3>
                         <div id="upcomingList" class="upcoming-list">
-                            <!-- Динамически заполняется -->
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Объекты недвижимости -->
             <div id="objects" class="page">
                 <div class="page-header">
                     <h2>Объекты недвижимости</h2>
                     <button id="addObjectBtn" class="btn-primary">+ Добавить объект</button>
                 </div>
                 <div id="objectsList" class="cards-grid">
-                    <!-- Динамически заполняется -->
                 </div>
             </div>
 
-
-            <!-- Калькулятор -->
             <div id="calculator" class="page">
                 <div class="calculator-header">
                     <h2>Налоговый калькулятор</h2>
@@ -174,18 +163,15 @@
                 </div>
             </div>
 
-            <!-- Договоры -->
             <div id="contracts" class="page">
                 <div class="page-header">
                     <h2>Договоры аренды</h2>
                     <button id="addContractBtn" class="btn-primary">+ Новый договор</button>
                 </div>
                 <div id="contractsList" class="cards-grid">
-                    <!-- Динамически заполняется -->
                 </div>
             </div>
 
-            <!-- Аналитика -->
             <div id="analytics" class="page">
                 <div class="analytics-header">
                     <h2>Финансовая аналитика</h2>
@@ -235,7 +221,6 @@
         </main>
     </div>
 
-    <!-- Модальные окна -->
     <div id="objectModal" class="modal hidden">
         <div class="modal-content">
             <h3 id="objectModalTitle">Добавить объект</h3>
@@ -321,4 +306,5 @@
     <script src="js/charts.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
