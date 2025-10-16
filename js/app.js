@@ -751,9 +751,10 @@ let app;
 // Запускаем приложение когда DOM загружен
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Сначала инициализируем базу данных
-        await db.waitForInit();
-        // Потом создаем приложение
+        // Ждем инициализации базы данных
+        await db.initPromise;
+        
+        // Создаем приложение
         app = new RentTaxApp();
     } catch (error) {
         console.error('Ошибка запуска приложения:', error);
