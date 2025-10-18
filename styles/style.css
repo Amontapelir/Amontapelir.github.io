@@ -1348,3 +1348,386 @@ body.dark-theme {
     ::-webkit-scrollbar-thumb:hover {
         background: var(--secondary-gradient);
     }
+
+/* Существующие стили остаются прежними до медиа-запросов */
+
+/* Улучшенная адаптивность */
+@media (max-width: 1200px) {
+    .header-content,
+    .nav-content,
+    .main-content {
+        max-width: 100%;
+        padding: 0 1.5rem;
+    }
+    
+    .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    .dashboard-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .objects-grid,
+    .contracts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* Улучшенная навигация для мобильных */
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .navigation {
+        padding: 0 1rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .nav-content {
+        justify-content: flex-start;
+        min-width: max-content;
+    }
+    
+    .nav-btn {
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+    
+    /* Основной контент */
+    .main-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+    
+    /* Сетки */
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* Карточки объектов и договоров */
+    .objects-grid,
+    .contracts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .object-card,
+    .contract-card {
+        padding: 1.5rem;
+    }
+    
+    .object-card-header,
+    .contract-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .object-meta,
+    .contract-meta {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .meta-item {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    /* Кнопки действий */
+    .object-actions,
+    .contract-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .action-btn {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    /* Выбор типа */
+    .tenant-type-selector {
+        flex-direction: column;
+    }
+    
+    .tenant-type-label {
+        justify-content: flex-start;
+    }
+    
+    /* Модальные окна */
+    .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+        width: calc(100% - 2rem);
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Мелкие мобильные устройства */
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .main-content {
+        padding: 1rem 0.5rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    /* Навигация */
+    .nav-btn {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.85rem;
+    }
+    
+    /* Формы */
+    .form-input,
+    .form-select {
+        padding: 0.875rem 1rem;
+    }
+    
+    /* Кнопки */
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Транзакции */
+    .transaction-item,
+    .upcoming-item {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .transaction-amount {
+        font-size: 1rem;
+    }
+    
+    /* Уведомления */
+    .notification {
+        right: 0.5rem;
+        left: 0.5rem;
+        max-width: calc(100% - 1rem);
+        padding: 1rem 1.25rem;
+    }
+}
+
+@media (max-width: 360px) {
+    /* Очень маленькие экраны */
+    .header-content,
+    .nav-content,
+    .main-content {
+        padding: 0 0.75rem;
+    }
+    
+    .nav-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .object-card,
+    .contract-card {
+        padding: 1rem;
+    }
+    
+    .object-card h4,
+    .contract-card h4 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Улучшения для планшетов в портретной ориентации */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+    .calculator-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Поддержка темной темы для всех разрешений */
+@media (max-width: 768px) {
+    body.dark-theme .nav-btn {
+        color: #cbd5e1;
+    }
+    
+    body.dark-theme .nav-btn:hover {
+        color: #f8fafc;
+        background-color: rgba(51, 65, 85, 0.7);
+    }
+}
+
+/* Улучшенная поддержка сенсорных устройств */
+@media (hover: none) and (pointer: coarse) {
+    .nav-btn:hover {
+        transform: none;
+    }
+    
+    .nav-btn:hover::before {
+        opacity: 0;
+    }
+    
+    .nav-btn:hover::after {
+        transform: scaleX(0);
+    }
+    
+    .nav-btn.active::after {
+        transform: scaleX(1);
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+    
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: none;
+    }
+    
+    .action-btn:hover {
+        transform: none;
+    }
+}
+
+/* Оптимизация для ландшафтной ориентации на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        position: static;
+    }
+    
+    .main-content {
+        padding: 1rem 2rem;
+    }
+    
+    .navigation {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+}
+
+/* Поддержка очень высоких разрешений */
+@media (min-width: 1920px) {
+    .header-content,
+    .nav-content,
+    .main-content {
+        max-width: 1800px;
+    }
+}
+
+/* Улучшенная доступность для уменьшенного движения */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Поддержка темного режима на системном уровне */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-theme) {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: var(--dark-text);
+    }
+    
+    body:not(.light-theme) .header {
+        background: rgba(30, 41, 59, 0.8);
+    }
+    
+    body:not(.light-theme) .card {
+        background: rgba(30, 41, 59, 0.8);
+        color: var(--dark-text);
+    }
+}
+
