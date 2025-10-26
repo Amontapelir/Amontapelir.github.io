@@ -269,7 +269,7 @@ body.dark-theme .theme-toggle {
     }
 
 .theme-toggle {
-    margin-left: 28rem;
+    margin-left: auto;
     padding: 0.75rem 1.5rem;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
@@ -1300,3 +1300,4 @@ body.dark-theme ::-webkit-scrollbar-track {
     ::-webkit-scrollbar-thumb:hover {
         background: var(--secondary-gradient);
     }
+
